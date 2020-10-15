@@ -1,0 +1,32 @@
+{
+    "name": "inTune",
+    "version": "1.0.0",
+    "description": "inTune for Spotify",
+    "main": "server.js",
+    "scripts": {
+        "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+        "start:prod": "node server.js",
+        "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+        "client": "cd client && npm run start",
+        "install": "cd client && npm install",
+        "build": "cd client && npm run build",
+        "heroku-postbuild": "npm run build"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^4.1.0",
+        "nodemon": "^1.18.7"
+    },
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.16.3",
+        "express-session": "^1.17.1",
+        "if-env": "^1.0.4",
+        "mongod": "^2.0.0",
+        "mongoose": "^5.10.9",
+        "passport": "^0.4.1",
+        "passport-spotify": "^1.1.0",
+        "react-router-dom": "^5.2.0"
+    }
+}
