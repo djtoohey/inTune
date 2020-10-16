@@ -15,7 +15,9 @@ module.exports = function (app) {
 
     app.get('/auth/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/auth/error' }),
         function (req, res) {
-            console.log(req.user)
-            res.redirect('http://localhost:3000/');
+            // console.log(req.user._json)
+            res.redirect("http://localhost:3000/test");
+
+            // res.json(req.user.displayName);
         });
 }

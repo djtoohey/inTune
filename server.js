@@ -26,7 +26,7 @@ app.use(passport.session());
 routes(app);
 
 // Connect to Mongo
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/spotify", { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.listen(PORT, () => {
     console.log(`🌎 ==> API server now on port ${PORT}!`);
