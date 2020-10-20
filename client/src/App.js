@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import Select from "./pages/Select";
 import NewSet from "./pages/NewSet";
 import Test from "./pages/Test";
+import Test2 from "./pages/Test2";
 
 function App() {
     return (
@@ -34,6 +35,9 @@ function App() {
                     </Route>
                     <Route exact path={"/test"}>
                         <Test />
+                    </Route>
+                    <Route exact path={"/test2"}>
+                        <Test2 />
                     </Route>
                     {/* <Route>
                         <NoMatch />
