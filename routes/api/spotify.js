@@ -57,6 +57,46 @@ module.exports = function (app) {
         //  this will probs be in a new func at this point, if not several 
     });
 
+    app.get('/api/playlistData/:id', function (req, res) {
+
+        const playlistId = req.params.id;
+        console.log(playlistId);
+        Spotify.findById(playlistId, function (err, data) {
+            console.log(data)
+            res.json(data);
+        })
+    });
+
+    app.delete("/api/playlistUser/:id/:playlistId", function (req, res) {
+        const userId = req.params.id;
+        const playlistId = req.params.playlistId;
+        console.log(userId, playlistId);
+        let userArr = [];
+        let newUserArr = [];
+        Spotify.findById(playlistId, function (err, data) {
+            console.log(data.userIds)
+            userArr = data.userIds
+        })
+            .then(() => {
+                console.log("inside then " + userArr)
+                userArr.forEach(user => {
+                    if (user !== userId) {
+                        newUserArr.push(user);
+                    }
+                });
+                // atm it returns the new arr, but has null instead of value
+                console.log(newUserArr);
+
+            })
+            .then(() => {
+                Spotify.findByIdAndUpdate(playlistId, { userIds: newUserArr })
+                    .then(dbUpdate => {
+                        console.log(dbUpdate);
+                        res.json(dbUpdate);
+                    })
+            })
+    })
+
 
 
     function ensureAuthenticated(req, res, next) {

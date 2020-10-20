@@ -5,16 +5,23 @@ export default {
     getUser: function () {
         return axios.get("/account");
     },
-    // Deletes the book with the given id
-    deleteBook: function (id) {
-        return axios.delete("/api/books/" + id);
+    removeUserFromPlaylist: function (id, playlistId) {
+        return axios.delete("/api/playlistUser/" + id + "/" + playlistId);
     },
+    // Deletes the book with the given id
+    // deleteBook: function (id) {
+    //     return axios.delete("/api/books/" + id);
+    // },
     // adds new playlist to database
     addNewUserSet: function (newUserSet) {
         return axios.post("/api/users", newUserSet);
     },
     // gets playlists owned to userId
     getUserPlaylists: function (userId) {
-        return axios.get("/api/playlists/" + userId)
+        return axios.get("/api/playlists/" + userId);
+    },
+    // gets users owned to playlistId
+    getPlaylistUsers: function (playlistId) {
+        return axios.get("/api/playlistData/" + playlistId);
     }
 };
