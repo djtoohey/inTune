@@ -31,51 +31,51 @@ db.once('open', function () {
             function (accessToken, refreshToken, expires_in, profile, done) {
                 // console.log(profile.id);
                 // creates new userobj
-                const newUser =
-                {
-                    username: profile.displayName,
-                    profilePic: profile.photos[0]
-                }
-                // console.log(newUser);
+                // const newUser =
+                // {
+                //     username: profile.displayName,
+                //     profilePic: profile.photos[0]
+                // }
+                // // console.log(newUser);
 
-                // finds all users
-                dbSpotify.Spotify.find(function (err, users) {
-                    if (err) return console.error(err);
-                    // console.log(users);
-                })
-                    // then compares all users to new user
-                    .then((users) => {
-                        for (let i = 0; i < users.length; i++) {
-                            const user = users[i];
-                            // console.log(user)
-                            if (!newUser.id === user.id) {
-                                // if they dont exist, create
-                                dbSpotify.Spotify.create({
-                                    id: profile.id,
-                                    username: profile.displayName,
-                                    profilePic: profile.photos[0]
-                                }).then(dbUser => {
-                                    console.log(dbUser);
+                // // finds all users
+                // dbSpotify.Spotify.find(function (err, users) {
+                //     if (err) return console.error(err);
+                //     // console.log(users);
+                // })
+                //     // then compares all users to new user
+                //     .then((users) => {
+                //         for (let i = 0; i < users.length; i++) {
+                //             const user = users[i];
+                //             // console.log(user)
+                //             if (!newUser.id === user.id) {
+                //                 // if they dont exist, create
+                //                 dbSpotify.Spotify.create({
+                //                     id: profile.id,
+                //                     username: profile.displayName,
+                //                     profilePic: profile.photos[0]
+                //                 }).then(dbUser => {
+                //                     console.log(dbUser);
 
-                                })
-                                    .then(() => {
-                                        process.nextTick(function () {
-                                            return done(null, profile);
-                                        });
-                                    })
-                                    .catch(err => {
-                                        console.error(err);
-                                        process.exit(1);
-                                    });
+                //                 })
+                // .then(() => {
+                process.nextTick(function () {
+                    return done(null, profile);
+                });
+                //             })
+                //             .catch(err => {
+                //                 console.error(err);
+                //                 process.exit(1);
+                //             });
 
-                            }
-                            else {
-                                process.nextTick(function () {
-                                    return done(null, profile);
-                                });
-                            }
-                        }
-                    })
+                // }
+                //                             else {
+                //         process.nextTick(function () {
+                //             return done(null, profile);
+                //         });
+                //     }
+                //                         }
+                // })
             }));
 });
 

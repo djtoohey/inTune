@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const spotifySchema = new Schema({
-    id: String,
-    username: String,
-    profilePic: String,
+    ownerId: String,
+    ownerUsername: String,
+    playlistName: String,
+    userIds: Array
 });
 
 const Spotify = mongoose.model("spotify", spotifySchema);

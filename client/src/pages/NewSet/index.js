@@ -28,11 +28,11 @@ class NewSet extends Component {
     loadUser() {
         API.getUser()
             .then(res => {
-                console.log(this.user);
+
                 this.setState({ user: res.data });
                 // console.log(res.data.displayName);
                 this.setState({ img: res.data._json.images[0].url })
-                console.log(res.data);
+
                 console.log(this.state.user);
             })
     };
@@ -42,14 +42,11 @@ class NewSet extends Component {
         let value = event.target.value;
         const name = event.target.name;
 
-        console.log(value)
-        console.log(name)
         // Updating the input's state
         this.setState({
             [name]: value
         });
-        console.log(this.state.newPlaylistName)
-        console.log(this)
+
     };
 
 
@@ -57,22 +54,16 @@ class NewSet extends Component {
     createNewCollection(event) {
         event.preventDefault();
 
-        console.log("button click");
-        console.log(this);
+
         API.addNewUserSet(
             {
                 ownerId: this.state.user.id,
                 ownerUsername: this.state.user.displayName,
                 playlistName: this.state.newPlaylistName,
                 userIds: []
-            }
-        )
-            .then(res => {
-                console.log("test");
             })
+            .then(res => window.location.assign("/previous"))
     }
-
-
 
     // 
     render() {
@@ -86,9 +77,13 @@ class NewSet extends Component {
                     name="newPlaylistName"
                     placeholder="Name of Playlist"
                     onChange={this.handleInputChange}
-                    value={this.state.firstName}
+                    value={this.state.newPlaylistName}
                 ></input>
-                <button onClick={this.createNewCollection}>Submit</button>
+                <a href="/previous"><button
+                    onClick={this.createNewCollection}
+                >Submit
+                </button>
+                </a>
             </div>
         );
     }

@@ -8,6 +8,7 @@ import API from "../../utils/API";
 function Select() {
     const [user, setUser] = useState({});
     const [img, setImg] = useState("");
+
     useEffect(() => {
         loadUser()
 
@@ -27,7 +28,7 @@ function Select() {
             <ProfileImg img={img}></ProfileImg>
 
             <Btn text="Create New Set" loc="/newset"></Btn>
-            <Btn text="Previous Set" loc={"http://localhost:3001/auth/spotify"}></Btn>
+            <Btn text="Previous Set" loc="/previous"></Btn>
 
         </div>
     );

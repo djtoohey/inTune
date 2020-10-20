@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Select from "./pages/Select";
 import NewSet from "./pages/NewSet";
+import Previous from "./pages/Previous";
 import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
 
@@ -32,6 +33,9 @@ function App() {
                     </Route>
                     <Route exact path={"/newset"}>
                         <NewSet />
+                    </Route>
+                    <Route exact path={"/previous"}>
+                        <Previous />
                     </Route>
                     <Route exact path={"/test"}>
                         <Test />
