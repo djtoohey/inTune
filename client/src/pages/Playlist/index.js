@@ -4,7 +4,7 @@ import ProfileImg from "../../components/ProfileImg";
 import PlaylistItem from "../../components/PlaylistItem";
 import UserItem from "../../components/UserItem";
 
-class Previous extends Component {
+class Playlist extends Component {
 
     constructor(props) {
         super(props);
@@ -13,9 +13,11 @@ class Previous extends Component {
             img: "",
             playlistId: "",
             playlistName: "",
-            playlistUsers: []
+            playlistUsers: [],
+            spotifyUserId: "",
+            newUserUrl: ""
         };
-        // this.createNewCollection = this.createNewCollection.bind(this) // bind method
+        this.getUserId = this.getUserId.bind(this) // bind method
 
     };
 
@@ -53,6 +55,39 @@ class Previous extends Component {
             })
     }
 
+    handleInputChange = event => {
+        // Getting the value and name of the input which triggered the change
+        let value = event.target.value;
+        const name = event.target.name;
+
+        console.log(value, name);
+        // Updating the input's state
+        this.setState({
+            [name]: value
+        });
+
+    };
+
+    getUserId() {
+        // console.log(this.state.newUserUrl)
+        let newSpotifyUserId = this.state.newUserUrl.substring(this.state.newUserUrl.lastIndexOf('user/') + 5);
+        let remove = this.state.newUserUrl.substring(this.state.newUserUrl.lastIndexOf('?si'));
+        newSpotifyUserId = newSpotifyUserId.replace(remove, " ");
+        console.log(newSpotifyUserId);
+        console.log(typeof (newSpotifyUserId));
+        this.setState({ spotifyUserId: newSpotifyUserId }, () => {
+            this.addUser();
+        });
+
+    };
+
+    addUser() {
+        // console.log("adduser")
+        console.log(this.state);
+        API.addUserToPlaylist(this.state.playlistId, this.state.spotifyUserId)
+            .then(res => console.log(res));
+    }
+
     // need to add users to one of the playlists, add loadPlaylistUsers to API, idk recheck spotify.js 
     render() {
         return (
@@ -69,18 +104,22 @@ class Previous extends Component {
                             displayName={user}
                             playlistId={this.state.playlistId}
                         />
-                        // remove btn here
-
                     ))}
-                    <button>Add new user</button>
+
+                    <input
+                        name="newUserUrl"
+                        placeholder="URL of New User"
+                        onChange={this.handleInputChange}
+                        value={this.state.newUserUrl}></input>
+                    <button onClick={this.getUserId}>Add new user</button>
                 </ul>
 
                 <p></p>
-                <button>generate playlist</button>
+                <button onClick={() => console.log(this.state.spotifyUserId)}>generate playlist</button>
             </div >
         );
     }
 }
 
 
-export default Previous;
+export default Playlist;

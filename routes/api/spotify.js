@@ -84,12 +84,35 @@ module.exports = function (app) {
                         newUserArr.push(user);
                     }
                 });
-                // atm it returns the new arr, but has null instead of value
+
                 console.log(newUserArr);
 
             })
             .then(() => {
                 Spotify.findByIdAndUpdate(playlistId, { userIds: newUserArr })
+                    .then(dbUpdate => {
+                        console.log(dbUpdate);
+                        res.json(dbUpdate);
+                    })
+            })
+    })
+
+
+    app.post("/api/playlist/:playlistId/:userId", function (req, res) {
+        const userId = req.params.userId;
+        const playlistId = req.params.playlistId;
+
+        let userArr = [];
+        Spotify.findById(playlistId, function (err, data) {
+            console.log(data.userIds)
+            userArr = data.userIds
+        })
+            .then(() => {
+                console.log("inside then " + userArr)
+                userArr.push(userId)
+            })
+            .then(() => {
+                Spotify.findByIdAndUpdate(playlistId, { userIds: userArr })
                     .then(dbUpdate => {
                         console.log(dbUpdate);
                         res.json(dbUpdate);

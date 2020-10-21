@@ -23,5 +23,12 @@ export default {
     // gets users owned to playlistId
     getPlaylistUsers: function (playlistId) {
         return axios.get("/api/playlistData/" + playlistId);
+    },
+    addUserToPlaylist: function (playlistId, userId) {
+        return axios.post("/api/playlist/" + playlistId + "/" + userId);
+    },
+
+    getUserName: function (id) {
+        return axios.get("https://api.spotify.com/v1/users/" + id)
     }
 };
