@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
     // Gets user
     start: function () {
-        return axios.get("/auth/spotify");
+        return axios.get("/auth/spotify/test");
     },
     getUser: function () {
         return axios.get("/account");

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("./config/passport");
 const PORT = process.env.PORT || 3001;
 const routes = require("./routes/api/spotify");
+const cors = require("cors");
 
 require("dotenv").config();
 
@@ -12,6 +13,10 @@ const app = express();
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cors());
+
+
 
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {

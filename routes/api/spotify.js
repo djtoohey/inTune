@@ -19,6 +19,12 @@ module.exports = function (app) {
         showDialog: true,
     }));
 
+    app.get('/auth/spotify/test', function (req, res) {
+
+        console.log(process.env.PORT || 3001);
+        res.redirect("/auth/spotify");
+    });
+
     app.get("/account", ensureAuthenticated, function (req, res) {
         res.json(req.user)
     })
@@ -26,9 +32,7 @@ module.exports = function (app) {
     app.get('/auth/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/auth/error' }),
         function (req, res) {
             // console.log(req.user._json)
-            res.redirect("http://localhost:3000/select");
-
-            // res.json(req.user.displayName);
+            res.redirect("/select");
         });
 
 

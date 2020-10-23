@@ -12,7 +12,7 @@ function Start() {
 
 
                 <a className="button is-success"
-                    onClick={() => { API.start().then(res => console.log(res)) }}>
+                    onClick={() => { API.start() }}>
                     Start
             </a>
 
