@@ -26,10 +26,17 @@ function Select() {
     return (
         <div>
             <ProfileImg img={img}></ProfileImg>
-
-            <Btn text="Create New Set" loc="/newset"></Btn>
-            <Btn text="Previous Set" loc="/previous"></Btn>
-
+            <div className="hero is-medium is-fluid">
+                <div className="hero-body container has-text-centered ">
+                    <h1 className="title has-text-white">Home</h1>
+                    <h1 className="subtitle has-text-white">What would you like to do?</h1>
+                    <a className="button is-success" href="/newset"> Create New Set</a>
+                    <br></br><br></br>
+                    <a className="button is-success" href="/previous"> Previous Set</a>
+                    {/* <Btn text="Create New Set" loc="/newset"></Btn>
+                    <Btn text="Previous Set" loc="/previous"></Btn> */}
+                </div>
+            </div>
         </div>
     );
 }

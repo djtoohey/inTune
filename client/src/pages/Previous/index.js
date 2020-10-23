@@ -53,18 +53,23 @@ class Previous extends Component {
         return (
             <div>
                 <ProfileImg img={this.state.img}></ProfileImg>
+                <div className="hero is-medium is-fluid">
+                    <div className="hero-body container has-text-centered ">
 
-                <h1>{this.state.user.displayName}'s Playlists</h1>
 
-                <ul>
-                    {this.state.playlists.map(playlist => (
-                        <PlaylistItem
-                            key={playlist._id}
-                            id={playlist._id}
-                            name={playlist.playlistName}
-                        />
-                    ))}
-                </ul>
+                        <h1 className="title has-text-white">{this.state.user.displayName}'s Playlists</h1>
+
+                        <ul>
+                            {this.state.playlists.map(playlist => (
+                                <PlaylistItem
+                                    key={playlist._id}
+                                    id={playlist._id}
+                                    name={playlist.playlistName}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                </div>
             </div >
         );
     }

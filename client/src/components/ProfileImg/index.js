@@ -4,7 +4,7 @@ import "../ProfileImg/index.css";
 
 function ProfileImg(props) {
     return (
-        <img className="profImg" src={props.img}></img>
+        <a href="/select"><img className="profImg" src={props.img}></img></a>
     );
 }
 

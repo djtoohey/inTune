@@ -69,21 +69,25 @@ class NewSet extends Component {
     render() {
         return (
             <div>
-                {/* https://material-ui.com/components/slider/#slider-with-input-field */}
-
                 <ProfileImg img={this.state.img}></ProfileImg>
-                <h1>NEW SET</h1>
-                <input
-                    name="newPlaylistName"
-                    placeholder="Name of Playlist"
-                    onChange={this.handleInputChange}
-                    value={this.state.newPlaylistName}
-                ></input>
-                <a href="/previous"><button
-                    onClick={this.createNewCollection}
-                >Submit
-                </button>
-                </a>
+                <div className="hero is-medium is-fluid">
+                    <div className="hero-body container has-text-centered ">
+
+                        
+                        <h1 className="title has-text-white">NEW SET</h1>
+                        <input className="input"
+                            name="newPlaylistName"
+                            placeholder="Name of Playlist"
+                            onChange={this.handleInputChange}
+                            value={this.state.newPlaylistName}
+                        ></input>
+                        <a href="/previous" className="button is-success"
+                            onClick={this.createNewCollection}
+                        >Submit
+                
+                        </a>
+                    </div>
+                </div>
             </div>
         );
     }

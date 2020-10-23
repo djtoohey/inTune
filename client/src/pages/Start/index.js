@@ -1,14 +1,23 @@
 import React from "react";
 import Btn from "../../components/Btn";
+import API from "../../utils/API";
 
 
 function Start() {
     return (
-        <div>
-            <h1>inTune</h1>
-            <h3>for Spotify</h3>
+        <div className="hero is-medium is-fluid">
+            <div className="hero-body container has-text-centered ">
+                <h1 className="title has-text-white">inTune</h1>
+                <h2 className="subtitle has-text-white">for Spotify</h2>
 
-            <Btn text="Start" loc={"http://localhost:3001" + "/auth/spotify"} />
+
+                <a className="button is-success"
+                    onClick={() => { API.start().then(res => console.log(res)) }}>
+                    Start
+            </a>
+
+                {/* <Btn text="Start" loc={"http://localhost:3001" + "/auth/spotify"} /> */}
+            </div>
         </div>
     );
 }

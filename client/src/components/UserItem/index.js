@@ -19,7 +19,7 @@ function PlaylistItem(props) {
 
 
     return (
-        <li>{props.displayName} <button id={props.id} onClick={() => removeUser(props.id)}>remove</button></li>
+        <li className="has-text-white mb-2 is-uppercase is-size-4">{props.displayName} <a className="button is-danger" id={props.id} onClick={() => removeUser(props.id)}>remove</a></li>
     );
 }
 

@@ -1,7 +1,6 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component } from "react";
 import API from "../../utils/API";
 import ProfileImg from "../../components/ProfileImg";
-import PlaylistItem from "../../components/PlaylistItem";
 import UserItem from "../../components/UserItem";
 
 class Playlist extends Component {
@@ -91,7 +90,7 @@ class Playlist extends Component {
         // console.log("adduser")
         // console.log(this.state);
         API.addUserToPlaylist(this.state.playlistId, this.state.spotifyUserId)
-            .then(res => console.log(res));
+            .then(res => window.location.reload());
     }
 
     getUserPlaylistArrays() {
@@ -174,7 +173,9 @@ class Playlist extends Component {
 
         API.fillPlaylist(obj)
             .then(res => {
-                console.log(res.data)
+                document.getElementById("genPlayBtn").style.visibility = "visible";
+                document.getElementById("loading").style.visibility = "hidden";
+
 
                 window.open(res.data);
             })
@@ -209,37 +210,44 @@ class Playlist extends Component {
         return (
             <div>
                 <ProfileImg img={this.state.img}></ProfileImg>
+                <div className="hero is-medium is-fluid">
+                    <div className="hero-body container has-text-centered ">
 
-                <h1>{this.state.playlistName}</h1>
+                        <h1 className="title has-text-white">{this.state.playlistName}</h1>
 
-                <ul>
-                    {this.state.playlistUsers.map(user => (
-                        <UserItem
-                            key={user}
-                            id={user}
-                            displayName={user}
-                            playlistId={this.state.playlistId}
-                        />
-                    ))}
+                        <ul>
+                            {this.state.playlistUsers.map(user => (
+                                <UserItem
+                                    key={user}
+                                    id={user}
+                                    displayName={user}
+                                    playlistId={this.state.playlistId}
+                                />
+                            ))}
 
-                    <input
-                        name="newUserUrl"
-                        placeholder="URL of New User"
-                        onChange={this.handleInputChange}
-                        value={this.state.newUserUrl}></input>
-                    <button onClick={this.getUserId}>Add new user</button>
-                </ul>
+                            <input
+                                className="input mb-1"
+                                name="newUserUrl"
+                                placeholder="URL of New User"
+                                onChange={this.handleInputChange}
+                                value={this.state.newUserUrl}></input>
+                            <a className="button is-success mb-6" onClick={this.getUserId}>ADD NEW USER</a>
+                        </ul>
 
-                <p></p>
-                <button id="genPlayBtn" onClick={() => {
-                    this.getUserPlaylistArrays();
-                    document.getElementById("genPlayBtn").disabled = true;
-                    document.getElementById("loading").style.visibility = "visible";
-                    // document.getElementById("confirmBtn").disabled = false;
-                }}>
-                    generate playlist</button>
-                <p id="loading" style={{ visibility: "hidden" }} >LOADING</p>
-            </div >
+                        <p></p>
+                        <a className="button is-success"
+                            id="genPlayBtn" onClick={() => {
+                                this.getUserPlaylistArrays();
+                                document.getElementById("genPlayBtn").style.visibility = "hidden";
+                                document.getElementById("loading").style.visibility = "visible";
+                            }}>
+                            GENERATE PLAYLIST</a>
+
+                        <progress id="loading" style={{ visibility: "hidden" }} className="progress is-medium is-success mt-6" max="100">15%</progress>
+                    </div >
+                </div>
+            </div>
+
         );
     }
 }
