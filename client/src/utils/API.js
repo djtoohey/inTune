@@ -39,5 +39,8 @@ export default {
     },
     makePlaylist: function (playlistIds) {
         return axios.post("/api/spotify/playlist/", playlistIds);
+    },
+    fillPlaylist: function (playlistUrl) {
+        return axios.post("/api/spotify/fillplaylist/", playlistUrl);
     }
 };

@@ -18,7 +18,9 @@ class Playlist extends Component {
             newUserUrl: "",
             arrayOfPlaylists: [],
             arrayOfSongs: [],
-            songsToBeAddedToNewPlaylist: []
+            songsToBeAddedToNewPlaylist: [],
+            allSongs: [],
+            playlistUrl: ""
         };
         this.getUserId = this.getUserId.bind(this) // bind method
         this.getUserPlaylistArrays = this.getUserPlaylistArrays.bind(this) // bind method
@@ -95,10 +97,10 @@ class Playlist extends Component {
     getUserPlaylistArrays() {
         // for (i < this.state.playlistUsers.length; i++;) {
 
-        console.log(this.state.playlistUsers.length);
+        // console.log(this.state.playlistUsers.length);
         for (let i = 0; i < this.state.playlistUsers.length; i++) {
             const user = this.state.playlistUsers[i];
-            console.log(i);
+            // console.log(i);
 
             // } this.state.playlistUsers.forEach((user) => {
             // console.log(user);
@@ -129,16 +131,19 @@ class Playlist extends Component {
                     // console.log(res.data);
                     const playlistSongs = res.data;
                     // console.log(playlistSongs.track.id)
+
                     let songArr = [];
                     playlistSongs.forEach(songs => {
                         // console.log(songs.track.id);
                         songArr.push(songs.track.id);
+                        this.state.allSongs.push(songs.track.id);
                     });
-                    this.state.arrayOfSongs.push(songArr);
                 })
                 .then(() => {
                     if (i + 1 === this.state.arrayOfPlaylists.length) {
                         this.setState({ songsToBeAddedToNewPlaylist: this.compareArrays.apply(this, this.state.arrayOfSongs) });
+
+
                         this.makePlaylist();
                     }
                 })
@@ -153,17 +158,36 @@ class Playlist extends Component {
             playlistName: this.state.playlistName
         }
         API.makePlaylist(userAndSongs)
-            .then(res => console.log(res))
+            .then(res => {
+                // console.log(res.data)
+                this.finishPlaylist(res.data)
+            })
     }
 
+    finishPlaylist(playlistId) {
+        console.log("HERE")
+        console.log(this.state.allSongs);
+        let obj = {
+            id: playlistId,
+            allSongs: this.state.allSongs
+        };
+
+        API.fillPlaylist(obj)
+            .then(res => {
+                console.log(res.data)
+
+                window.open(res.data);
+            })
+        // res should === the playlist url :D
+    }
 
     compareArrays(args) {
-        var fullArr = [];
-        var finalArr = [];
-        console.log(arguments);
+        let fullArr = [];
+        let finalArr = [];
+        // console.log(arguments);
         // store the arguments inside a single array
-        for (var count = 0; count < arguments.length; count++) {
-            console.log(count, arguments[count]);
+        for (let count = 0; count < arguments.length; count++) {
+            // console.log(count, arguments[count]);
             fullArr[count] = arguments[count];
         }
         // loop through the array of arrays, comparing array i to array j
@@ -210,14 +234,11 @@ class Playlist extends Component {
                 <button id="genPlayBtn" onClick={() => {
                     this.getUserPlaylistArrays();
                     document.getElementById("genPlayBtn").disabled = true;
+                    document.getElementById("loading").style.visibility = "visible";
                     // document.getElementById("confirmBtn").disabled = false;
                 }}>
                     generate playlist</button>
-                {/* <button disabled={true} id="confirmBtn" onClick={() => {
-                    // console.log(this.state.arrayOfPlaylists)
-                    this.getUserSongsArrays();
-                    document.getElementById("confirmBtn").disabled = true;
-                }}>Confirm</button> */}
+                <p id="loading" style={{ visibility: "hidden" }} >LOADING</p>
             </div >
         );
     }

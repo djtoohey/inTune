@@ -4,6 +4,7 @@ const passport = require("passport");
 const Spotify = require("../../models/spotify");
 const spotifyApi = require("../../config/spotifyWebApi");
 const request = require("request");
+const { json } = require("express");
 
 require("../../config/passport");
 
@@ -150,19 +151,14 @@ module.exports = function (app) {
         const songs = data.songs;
         const id = data.id;
         const playlistName = data.playlistName;
-        const options = { public: "true" };
 
         const passableSongs = [];
         songs.forEach(song => {
             passableSongs.push("spotify:track:" + song);
         });
 
-        const newPlaylistId = "";
-        const playlistUrl = "";
 
-        console.log(id, playlistName, options);
-
-        let authOptions1 = {
+        let authOptions = {
             url: 'https://api.spotify.com/v1/users/' + id + '/playlists',
             body: JSON.stringify({
                 'name': playlistName,
@@ -175,42 +171,75 @@ module.exports = function (app) {
             }
         };
 
-        request.post(authOptions1, function (error, response, body) {
-            console.log(body);
-        });
+        request.post(authOptions, function (error, response, body) {
+            let obj = JSON.parse(body);
 
-        //     console.log(rez);
-        //     console.log(err);
-        // })
-        // .catch(err =>
-        //     console.log(err)
-        // )
-        // spotifyApi.createPlaylist(id, playlistName, options)
-        //     .then(null, test => console.log(test));
-        // spotifyApi.createPlaylist(id, playlistName, { public: false })
-        //     .then(null, newPlaylist => {
-        //         console.log(newPlaylist);
-        //     })
-        // .then(newPlaylist => {
-        //     // newPlaylistId = newPlaylist.id;
-        //     // playlistUrl = newPlaylist.external_urls.spotify;
-        //     res.json(newPlaylist);
-        //     // return newPlaylist
-        //     // console.log(newPlaylist);
-        // })
-        // .catch(err => res.json(err))
-        // res.json(newPlaylist)
-        // .then(() =>
-        //     spotifyApi.addTracksToPlaylist(newPlaylistId, passableSongs)
-        //         .then(snapshot => {
-        //             res.json(playlistUrl);
-        //         }))
-        res.json("test");
+            addMutualSongs(obj.id, passableSongs, res);
+        })
     })
 
-    function createPlaylistCallBack(work) {
-        console.log(work)
+    function addMutualSongs(playlistId, songs, res) {
+        let authOptions = {
+            url: 'https://api.spotify.com/v1/playlists/' + playlistId + '/tracks',
+            body: JSON.stringify({
+                "uris": songs
+            }),
+            dataType: 'json',
+            headers: {
+                'Authorization': 'Bearer ' + spotifyApi.getAccessToken(),
+                'Content-Type': 'application/json',
+            }
+        };
+
+        request.post(authOptions, function (error, response, body) {
+            let obj = JSON.parse(body);
+            // console.log(obj);
+
+            res.json(playlistId);
+            // https://open.spotify.com/playlist/
+        })
     }
+
+    app.post("/api/spotify/fillplaylist/", function (req, res) {
+        const data = req.body;
+        // console.log(data.allSongs)
+
+        const songs = data.allSongs;
+        const playlistId = data.id;
+
+        let passableSongs = [];
+        songs.forEach(song => {
+            passableSongs.push("spotify:track:" + song);
+        });
+        let chunk = 100;
+        for (let i = 0; i < passableSongs.length; i += chunk) {
+            const tempArray = passableSongs.slice(i, i + chunk);
+            // console.log(tempArray)
+
+            let authOptions = {
+                url: 'https://api.spotify.com/v1/playlists/' + playlistId + '/tracks',
+                body: JSON.stringify({
+                    "uris": tempArray
+                }),
+                dataType: 'json',
+                headers: {
+                    'Authorization': 'Bearer ' + spotifyApi.getAccessToken(),
+                    'Content-Type': 'application/json',
+                }
+            };
+
+            request.post(authOptions, function (error, response, body) {
+                let obj = JSON.parse(body);
+                // console.log(obj);
+
+            })
+        }
+
+
+
+        res.json("https://open.spotify.com/playlist/" + playlistId);
+
+    })
 
     function ensureAuthenticated(req, res, next) {
         if (req.isAuthenticated()) {
