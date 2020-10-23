@@ -8,7 +8,7 @@ const { json } = require("express");
 
 require("../../config/passport");
 
-const SELECT_REDIRECT = "http://localhost:3000/select"
+const SELECT_REDIRECT = "https://djtoohey-intune.herokuapp.com/select"
 
 module.exports = function (app) {
     app.get('/auth/', (req, res) => {

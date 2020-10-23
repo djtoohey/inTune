@@ -1,9 +1,11 @@
 import axios from "axios";
 
+require("dotenv").config();
+
 export default {
     // Gets user
     start: function () {
-        return axios.get("/auth/spotify/");
+        console.log(process.env.HEROKU_URL);
     },
     getUser: function () {
         return axios.get("/account");

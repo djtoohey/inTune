@@ -31,7 +31,7 @@ db.once('open', function () {
             {
                 clientID: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
-                callbackURL: "http://localhost:" + port + authCallbackPath,
+                callbackURL: "https://djtoohey-intune.herokuapp.com" + authCallbackPath,
             },
             function (accessToken, refreshToken, expires_in, profile, done) {
 
