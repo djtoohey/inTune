@@ -27,6 +27,30 @@ function Test() {
     };
 
 
+    function compareArrays(args) {
+        var fullArr = [];
+        var finalArr = [];
+        // store the arguments inside a single array
+        for (var count = 0; count < arguments.length; count++) {
+            console.log(arguments[count]);
+            fullArr[count] = arguments[count];
+        }
+        // loop through the array of arrays, comparing array i to array j
+        for (let i = 0; i < fullArr.length; i++) {
+            fullArr[i].forEach(function (e) {
+                for (let j = 0; j < fullArr.length; j++) {
+                    if (i !== j) {
+                        if (fullArr[j].includes(e) && !finalArr.includes(e)) finalArr.push(e);
+                    }
+                }
+            });
+        }
+
+        return finalArr;
+    }
+
+
+
 
     // render() {
     return (
@@ -40,6 +64,8 @@ function Test() {
             <a href="/test2"><img src={img}></img>
             </a>
             <ProfileImg img={img}></ProfileImg>
+
+            <button onClick={() => console.log(compareArrays([1, 2, 3], [2, 5, 8, 7], [5, 2, 1, 4], [4, 3], [7]))}>Test</button>
         </div >
     );
     // }

@@ -1,6 +1,10 @@
 const router = require("express").Router();
+const axios = require("axios");
 const passport = require("passport");
 const Spotify = require("../../models/spotify");
+const spotifyApi = require("../../config/spotifyWebApi");
+const request = require("request");
+
 require("../../config/passport");
 
 module.exports = function (app) {
@@ -10,7 +14,7 @@ module.exports = function (app) {
     app.get('/auth/error', (req, res) => res.send('Unknown Error'))
 
     app.get('/auth/spotify', passport.authenticate('spotify', {
-        scope: ["user-read-email", "user-read-private"],
+        scope: ["user-read-email", "user-read-private", "playlist-modify-public", "playlist-modify-private"],
         showDialog: true,
     }));
 
@@ -29,7 +33,7 @@ module.exports = function (app) {
 
     app.post("/api/users", function (req, res) {
         const newUser = req.body;
-        console.log(newUser);
+        // console.log(newUser);
         Spotify.create({
             ownerId: newUser.ownerId,
             ownerUserName: newUser.ownerUserName,
@@ -42,7 +46,7 @@ module.exports = function (app) {
     })
 
     app.get('/api/playlists/:id', function (req, res) {
-        console.log("req.params.id: " + req.params.id)
+        // console.log("req.params.id: " + req.params.id)
         const id = req.params.id
         Spotify.find({ ownerId: id }, function (err, playlists) {
             // console.log(playlists);
@@ -60,9 +64,9 @@ module.exports = function (app) {
     app.get('/api/playlistData/:id', function (req, res) {
 
         const playlistId = req.params.id;
-        console.log(playlistId);
+        // console.log(playlistId);
         Spotify.findById(playlistId, function (err, data) {
-            console.log(data)
+            // console.log(data)
             res.json(data);
         })
     });
@@ -70,28 +74,28 @@ module.exports = function (app) {
     app.delete("/api/playlistUser/:id/:playlistId", function (req, res) {
         const userId = req.params.id;
         const playlistId = req.params.playlistId;
-        console.log(userId, playlistId);
+        // console.log(userId, playlistId);
         let userArr = [];
         let newUserArr = [];
         Spotify.findById(playlistId, function (err, data) {
-            console.log(data.userIds)
+            // console.log(data.userIds)
             userArr = data.userIds
         })
             .then(() => {
-                console.log("inside then " + userArr)
+                // console.log("inside then " + userArr)
                 userArr.forEach(user => {
                     if (user !== userId) {
                         newUserArr.push(user);
                     }
                 });
 
-                console.log(newUserArr);
+                // console.log(newUserArr);
 
             })
             .then(() => {
                 Spotify.findByIdAndUpdate(playlistId, { userIds: newUserArr })
                     .then(dbUpdate => {
-                        console.log(dbUpdate);
+                        // console.log(dbUpdate);
                         res.json(dbUpdate);
                     })
             })
@@ -104,23 +108,109 @@ module.exports = function (app) {
 
         let userArr = [];
         Spotify.findById(playlistId, function (err, data) {
-            console.log(data.userIds)
+            // console.log(data.userIds)
             userArr = data.userIds
         })
             .then(() => {
-                console.log("inside then " + userArr)
+                // console.log("inside then " + userArr)
                 userArr.push(userId)
             })
             .then(() => {
                 Spotify.findByIdAndUpdate(playlistId, { userIds: userArr })
                     .then(dbUpdate => {
-                        console.log(dbUpdate);
+                        // console.log(dbUpdate);
                         res.json(dbUpdate);
                     })
             })
     })
 
+    app.get("/api/spotify/playlist/:userId", function (req, res) {
+        const userId = req.params.userId;
 
+        spotifyApi.getUserPlaylists(userId)
+            .then(playlists => {
+                res.json(playlists.body.items);
+            })
+        // spotifyApi.getPlaylist("37i9dQZF1EuQKhTTAFKP2c")
+        //     .then(data => console.log(data))
+    })
+
+    app.get("/api/spotify/songs/:playlistId", function (req, res) {
+        const playlistId = req.params.playlistId;
+
+        spotifyApi.getPlaylistTracks(playlistId)
+            .then(songs => {
+                // console.log(songs.body.items)
+                res.json(songs.body.items)
+            })
+    })
+
+    app.post("/api/spotify/playlist/", function (req, res) {
+        const data = req.body;
+        const songs = data.songs;
+        const id = data.id;
+        const playlistName = data.playlistName;
+        const options = { public: "true" };
+
+        const passableSongs = [];
+        songs.forEach(song => {
+            passableSongs.push("spotify:track:" + song);
+        });
+
+        const newPlaylistId = "";
+        const playlistUrl = "";
+
+        console.log(id, playlistName, options);
+
+        let authOptions1 = {
+            url: 'https://api.spotify.com/v1/users/' + id + '/playlists',
+            body: JSON.stringify({
+                'name': playlistName,
+                'public': true
+            }),
+            dataType: 'json',
+            headers: {
+                'Authorization': 'Bearer ' + spotifyApi.getAccessToken(),
+                'Content-Type': 'application/json',
+            }
+        };
+
+        request.post(authOptions1, function (error, response, body) {
+            console.log(body);
+        });
+
+        //     console.log(rez);
+        //     console.log(err);
+        // })
+        // .catch(err =>
+        //     console.log(err)
+        // )
+        // spotifyApi.createPlaylist(id, playlistName, options)
+        //     .then(null, test => console.log(test));
+        // spotifyApi.createPlaylist(id, playlistName, { public: false })
+        //     .then(null, newPlaylist => {
+        //         console.log(newPlaylist);
+        //     })
+        // .then(newPlaylist => {
+        //     // newPlaylistId = newPlaylist.id;
+        //     // playlistUrl = newPlaylist.external_urls.spotify;
+        //     res.json(newPlaylist);
+        //     // return newPlaylist
+        //     // console.log(newPlaylist);
+        // })
+        // .catch(err => res.json(err))
+        // res.json(newPlaylist)
+        // .then(() =>
+        //     spotifyApi.addTracksToPlaylist(newPlaylistId, passableSongs)
+        //         .then(snapshot => {
+        //             res.json(playlistUrl);
+        //         }))
+        res.json("test");
+    })
+
+    function createPlaylistCallBack(work) {
+        console.log(work)
+    }
 
     function ensureAuthenticated(req, res, next) {
         if (req.isAuthenticated()) {

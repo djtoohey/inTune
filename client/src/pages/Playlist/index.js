@@ -15,9 +15,13 @@ class Playlist extends Component {
             playlistName: "",
             playlistUsers: [],
             spotifyUserId: "",
-            newUserUrl: ""
+            newUserUrl: "",
+            arrayOfPlaylists: [],
+            arrayOfSongs: [],
+            songsToBeAddedToNewPlaylist: []
         };
         this.getUserId = this.getUserId.bind(this) // bind method
+        this.getUserPlaylistArrays = this.getUserPlaylistArrays.bind(this) // bind method
 
     };
 
@@ -35,7 +39,7 @@ class Playlist extends Component {
                 // console.log(res.data.displayName);
                 this.setState({ img: res.data._json.images[0].url })
 
-                // console.log(this.state.user);
+                // console.log(this.state.user.id);
 
                 // window.location.href... gotten from 
                 // https://stackoverflow.com/questions/4758103/last-segment-of-url-in-jquery
@@ -48,8 +52,8 @@ class Playlist extends Component {
     loadPlaylistUsers(id) {
         API.getPlaylistUsers(id)
             .then(res => {
-                console.log("INDEX");
-                console.log(res.data);
+                // console.log("INDEX");
+                // console.log(res.data);
                 this.setState({ playlistName: res.data.playlistName });
                 this.setState({ playlistUsers: res.data.userIds })
             })
@@ -60,7 +64,7 @@ class Playlist extends Component {
         let value = event.target.value;
         const name = event.target.name;
 
-        console.log(value, name);
+        // console.log(value, name);
         // Updating the input's state
         this.setState({
             [name]: value
@@ -73,8 +77,8 @@ class Playlist extends Component {
         let newSpotifyUserId = this.state.newUserUrl.substring(this.state.newUserUrl.lastIndexOf('user/') + 5);
         let remove = this.state.newUserUrl.substring(this.state.newUserUrl.lastIndexOf('?si'));
         newSpotifyUserId = newSpotifyUserId.replace(remove, " ");
-        console.log(newSpotifyUserId);
-        console.log(typeof (newSpotifyUserId));
+        // console.log(newSpotifyUserId);
+        // console.log(typeof (newSpotifyUserId));
         this.setState({ spotifyUserId: newSpotifyUserId }, () => {
             this.addUser();
         });
@@ -83,9 +87,97 @@ class Playlist extends Component {
 
     addUser() {
         // console.log("adduser")
-        console.log(this.state);
+        // console.log(this.state);
         API.addUserToPlaylist(this.state.playlistId, this.state.spotifyUserId)
             .then(res => console.log(res));
+    }
+
+    getUserPlaylistArrays() {
+        // for (i < this.state.playlistUsers.length; i++;) {
+
+        console.log(this.state.playlistUsers.length);
+        for (let i = 0; i < this.state.playlistUsers.length; i++) {
+            const user = this.state.playlistUsers[i];
+            console.log(i);
+
+            // } this.state.playlistUsers.forEach((user) => {
+            // console.log(user);
+            API.getUserSpotifyPlaylist(user)
+                .then(res => {
+                    const playlists = res.data;
+                    for (let j = 0; j < playlists.length; j++) {
+                        const playlist = playlists[j];
+                        if (playlist.name.toLowerCase().includes("work")) {
+                            let oldArr = this.state.arrayOfPlaylists;
+                            this.setState({ arrayOfPlaylists: oldArr.concat(playlist) });
+                        }
+                    }
+                    // console.log(res.data) 
+                })
+
+                .then(() => { if (i + 1 === this.state.playlistUsers.length) { this.getUserSongsArrays(); } })
+        };
+    }
+
+    getUserSongsArrays() {
+        for (let i = 0; i < this.state.arrayOfPlaylists.length; i++) {
+            const playlist = this.state.arrayOfPlaylists[i];
+
+            // console.log(playlist.id)
+            API.getPlaylistSongs(playlist.id)
+                .then(res => {
+                    // console.log(res.data);
+                    const playlistSongs = res.data;
+                    // console.log(playlistSongs.track.id)
+                    let songArr = [];
+                    playlistSongs.forEach(songs => {
+                        // console.log(songs.track.id);
+                        songArr.push(songs.track.id);
+                    });
+                    this.state.arrayOfSongs.push(songArr);
+                })
+                .then(() => {
+                    if (i + 1 === this.state.arrayOfPlaylists.length) {
+                        this.setState({ songsToBeAddedToNewPlaylist: this.compareArrays.apply(this, this.state.arrayOfSongs) });
+                        this.makePlaylist();
+                    }
+                })
+        }
+    }
+
+
+    makePlaylist() {
+        const userAndSongs = {
+            songs: this.state.songsToBeAddedToNewPlaylist,
+            id: this.state.user.id,
+            playlistName: this.state.playlistName
+        }
+        API.makePlaylist(userAndSongs)
+            .then(res => console.log(res))
+    }
+
+
+    compareArrays(args) {
+        var fullArr = [];
+        var finalArr = [];
+        console.log(arguments);
+        // store the arguments inside a single array
+        for (var count = 0; count < arguments.length; count++) {
+            console.log(count, arguments[count]);
+            fullArr[count] = arguments[count];
+        }
+        // loop through the array of arrays, comparing array i to array j
+        for (let i = 0; i < fullArr.length; i++) {
+            fullArr[i].forEach(function (e) {
+                for (let j = 0; j < fullArr.length; j++) {
+                    if (i !== j) {
+                        if (fullArr[j].includes(e) && !finalArr.includes(e)) finalArr.push(e);
+                    }
+                }
+            });
+        }
+
+        return finalArr;
     }
 
     // need to add users to one of the playlists, add loadPlaylistUsers to API, idk recheck spotify.js 
@@ -115,7 +207,17 @@ class Playlist extends Component {
                 </ul>
 
                 <p></p>
-                <button onClick={() => console.log(this.state.spotifyUserId)}>generate playlist</button>
+                <button id="genPlayBtn" onClick={() => {
+                    this.getUserPlaylistArrays();
+                    document.getElementById("genPlayBtn").disabled = true;
+                    // document.getElementById("confirmBtn").disabled = false;
+                }}>
+                    generate playlist</button>
+                {/* <button disabled={true} id="confirmBtn" onClick={() => {
+                    // console.log(this.state.arrayOfPlaylists)
+                    this.getUserSongsArrays();
+                    document.getElementById("confirmBtn").disabled = true;
+                }}>Confirm</button> */}
             </div >
         );
     }

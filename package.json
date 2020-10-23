@@ -28,6 +28,8 @@
         "mongoose": "^5.10.9",
         "passport": "^0.4.1",
         "passport-spotify": "^1.1.0",
-        "react-router-dom": "^5.2.0"
+        "react-router-dom": "^5.2.0",
+        "request": "^2.88.2",
+        "spotify-web-api-node": "^5.0.0"
     }
 }

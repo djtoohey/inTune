@@ -30,5 +30,14 @@ export default {
 
     getUserName: function (id) {
         return axios.get("https://api.spotify.com/v1/users/" + id)
+    },
+    getUserSpotifyPlaylist: function (userId) {
+        return axios.get("/api/spotify/playlist/" + userId);
+    },
+    getPlaylistSongs: function (playlistId) {
+        return axios.get("/api/spotify/songs/" + playlistId);
+    },
+    makePlaylist: function (playlistIds) {
+        return axios.post("/api/spotify/playlist/", playlistIds);
     }
 };

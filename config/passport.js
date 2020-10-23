@@ -1,6 +1,9 @@
 const passport = require("passport");
 const SpotifyStrategy = require("passport-spotify").Strategy;
 const mongoose = require("mongoose");
+
+const spotifyApi = require("./spotifyWebApi");
+
 const port = process.env.PORT || 3001;
 
 const authCallbackPath = "/auth/spotify/callback";
@@ -33,6 +36,7 @@ db.once('open', function () {
             function (accessToken, refreshToken, expires_in, profile, done) {
 
                 process.nextTick(function () {
+                    spotifyApi.setAccessToken(accessToken);
                     return done(null, profile);
                 });
 
