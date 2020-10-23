@@ -14,9 +14,6 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(cors());
-
-
 
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
@@ -26,6 +23,18 @@ if (process.env.NODE_ENV === "production") {
 app.use(session({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Enabling CORS
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
+        return res.status(200).json({});
+    }
+    next();
+});
 
 // Define API routes here
 routes(app);

@@ -12,7 +12,7 @@ function Start() {
 
 
                 <a className="button is-success"
-                    onClick={() => { API.start() }}>
+                    href="http://localhost:3001/auth/spotify">
                     Start
             </a>
 
