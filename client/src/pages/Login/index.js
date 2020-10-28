@@ -3,14 +3,11 @@ import Btn from "../../components/Btn";
 
 
 function Login() {
-    return (
-        <div>
-            <h1>ON LOGIN</h1>
-            <Btn text="login" loc="/select"></Btn>
-            <Btn text="signup" loc="/signup"></Btn>
 
-        </div>
-    );
+    <div>
+        <button href="https://djtoohey-intune.herokuapp.com/login"> Login</button>
+    </div>
+
 }
 
 
