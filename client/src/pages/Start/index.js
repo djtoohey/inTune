@@ -20,6 +20,16 @@ function Start() {
                 >
                     Start
             </a>
+
+                <a className="button is-success"
+                    // href="http://localhost:3001/auth/spotify/"
+                    onClick={() => (
+                        API.start()
+                            .then(res => console.log(res.data))
+                    )}
+                >
+                    Work pls
+            </a>
             </div>
         </div >
     );
