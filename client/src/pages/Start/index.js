@@ -20,8 +20,6 @@ function Start() {
                 >
                     Start
             </a>
-
-                {/* <Btn text="Start" loc={"http://localhost:3001" + "/auth/spotify"} /> */}
             </div>
         </div >
     );
