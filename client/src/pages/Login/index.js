@@ -2,11 +2,9 @@ import React from "react";
 
 
 function Login() {
-
-    <div>
-        <button href="https://djtoohey-intune.herokuapp.com/login"> Login</button>
-    </div>
-
+    return (
+        <a href="https://djtoohey-intune.herokuapp.com/login" ><button >Login</button></a>
+    )
 }
 
 
