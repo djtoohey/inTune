@@ -17,7 +17,7 @@ class App extends Component {
     }
 
     render() {
-        const { token } = this.state;
+        const { token } = this.state.token;
         return (
 
             <div>
