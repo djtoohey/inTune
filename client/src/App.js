@@ -13,7 +13,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-        this.setState({ token });
+        this.setState({ token: "A" });
     }
 
     render() {
