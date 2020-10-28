@@ -5,7 +5,7 @@ require("dotenv").config();
 export default {
     // Gets user
     start: function () {
-        console.log(process.env.HEROKU_URL);
+        return axios.get("/port");
     },
     getUser: function () {
         return axios.get("/account");

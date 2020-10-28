@@ -6,7 +6,7 @@ require("dotenv").config();
 const spotifyApi = new SpotifyWebApi({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    redirectUri: "https://djtoohey-intune.herokuapp.com/auth/spotify/callback"
+    redirectUri: "http://localhost:3001/auth/spotify/callback"
 });
 
 module.exports = spotifyApi;

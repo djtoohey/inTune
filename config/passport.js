@@ -31,7 +31,7 @@ db.once('open', function () {
             {
                 clientID: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
-                callbackURL: "https://djtoohey-intune.herokuapp.com" + authCallbackPath,
+                callbackURL: "http://localhost:3001/auth/spotify/callback",
             },
             function (accessToken, refreshToken, expires_in, profile, done) {
 

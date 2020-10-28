@@ -6,9 +6,12 @@ const spotifyApi = require("../../config/spotifyWebApi");
 const request = require("request");
 const { json } = require("express");
 
+const PORT = process.env.PORT || 3001;
+
+
 require("../../config/passport");
 
-const SELECT_REDIRECT = "https://djtoohey-intune.herokuapp.com/select"
+const SELECT_REDIRECT = "http://localhost:3000/select"
 
 module.exports = function (app) {
     app.get('/auth/', (req, res) => {
@@ -239,6 +242,10 @@ module.exports = function (app) {
 
         res.json("https://open.spotify.com/playlist/" + playlistId);
 
+    })
+
+    app.get("/port", function (req, res) {
+        res.json(PORT);
     })
 
     function ensureAuthenticated(req, res, next) {
