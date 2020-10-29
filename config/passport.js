@@ -31,7 +31,7 @@ db.once('open', function () {
             {
                 clientID: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
-                callbackURL: "http://localhost:3001/auth/spotify/callback",
+                callbackURL: process.env.REDIRECT_URI,
             },
             function (accessToken, refreshToken, expires_in, profile, done) {
 

@@ -19,7 +19,7 @@ module.exports = function (app) {
     })
     app.get('/auth/error', (req, res) => res.send('Unknown Error'))
 
-    app.get('/login', passport.authenticate('spotify', {
+    app.get('/auth/spotify', passport.authenticate('spotify', {
         scope: ["user-read-email", "user-read-private", "playlist-modify-public", "playlist-modify-private"],
         showDialog: true,
     }));

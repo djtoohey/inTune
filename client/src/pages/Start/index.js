@@ -12,23 +12,19 @@ function Start() {
 
 
                 <a className="button is-success"
-                    href="https://djtoohey-intune.herokuapp.com/login"
+                    href="https://djtoohey-intune.herokuapp.com/auth/spotify/"
                 // onClick={() => (
                 //     API.start()
                 //         .then(res => console.log(res.data))
                 // )}
                 >
-                    Start
+                    HEROKU
             </a>
 
                 <a className="button is-success"
-                    // href="http://localhost:3001/auth/spotify/"
-                    onClick={() => (
-                        API.start()
-                            .then(res => console.log(res.data))
-                    )}
+                    href="http://localhost:3001/auth/spotify/"
                 >
-                    Work pls
+                    LOCAL
             </a>
             </div>
         </div >
