@@ -8,6 +8,7 @@ const { json } = require("express");
 
 const PORT = process.env.PORT || 3001;
 
+require("dotenv").config();
 
 require("../../config/passport");
 
@@ -31,7 +32,7 @@ module.exports = function (app) {
     app.get('/auth/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/auth/error' }),
         function (req, res) {
             // console.log(req.user._json)
-            res.redirect(SELECT_REDIRECT);
+            res.redirect(process.env.REDIRECT_SELECT);
         });
 
 

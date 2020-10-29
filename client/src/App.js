@@ -28,7 +28,7 @@ class App extends Component {
             <Router>
                 <div>
                     <Switch>
-                        <Route exact path={"/"}>
+                        <Route exact path={"/login"}>
                             <Start />
                         </Route>
                         <Route exact path={"/signup"}>
