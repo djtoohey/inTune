@@ -1,29 +1,38 @@
-# Create React Express App
+# inTune
+![MIT](https://img.shields.io/badge/licence-MIT-success?style=flat-square)
 
-## About This Boilerplate
+Web App to create playlists that everyone will love! Through the use of Spotify API, app takes in user's spotify URLs and gets their playlists and returns a playlist filled with mutual songs and a mix of songs from everyone's playlists to introduce new music. 
+    
+## Table of Contents
+* [Installation](#installation)
+* [Usage](#usage)
+* [Licence](#licence)
+* [Contributing](#contributing)
+* [Tests](#tests)
+* [Questions](#questions)
+    
+    
+## Installation:
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+    npm install
+    
+set .env variables CLIENT_ID and CLIENT_SECRET from the Spotify API Dashboard 
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+## Usage
+Locally:
 
-## Starting the app locally
+    npm start
+    
+or on Heroku:
+https://djtoohey-intune.herokuapp.com/
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+## Licence
+This project is licensed under the terms of the MIT.
 
-```
-npm install
-```
+    
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+    
 
-This should install node modules within the server and the client folder.
-
-After both installations complete, run the following command in your terminal:
-
-```
-npm start
-```
-
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
-
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
+## Questions
+GitHub: https://www.github.com/djtoohey/
