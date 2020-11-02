@@ -52,6 +52,9 @@ class App extends Component {
                         <Route exact path={"/test2"}>
                             <Test2 />
                         </Route>
+                        {/* <Route exact path={"/auth/spotify/"}>
+                            <ren`>
+                        </Route> */}
                         {/* <Route>
                         <NoMatch />
                     </Route> */}

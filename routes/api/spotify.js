@@ -4,7 +4,6 @@ const passport = require("passport");
 const Spotify = require("../../models/spotify");
 const spotifyApi = require("../../config/spotifyWebApi");
 const request = require("request");
-const { json } = require("express");
 
 const cors = require("cors");
 
