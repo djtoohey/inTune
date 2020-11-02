@@ -23,7 +23,7 @@ Locally:
 
     npm start
     
-or on Heroku:
+or on Heroku (WIP):
 https://djtoohey-intune.herokuapp.com/
 
 ## Licence
