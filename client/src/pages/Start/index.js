@@ -11,11 +11,11 @@ class Start extends React.Component {
 
 
                     <a className="button is-success"
-                        href="/login"
-                    //     onClick={() => (
-                    //     // API.start()
-                    //     // .then(res => console.log(res.data))
-                    // )}
+                        // href="/login"
+                        onClick={() => (
+                            API.start()
+                                .then(res => console.log(res.data))
+                        )}
                     >
                         HEROKU
             </a>
