@@ -5,7 +5,7 @@ require("dotenv").config();
 export default {
     // Gets user
     start: function () {
-        return axios.get("/port");
+        return axios.get("/auth/spotify/");
     },
     getUser: function () {
         return axios.get("/account");

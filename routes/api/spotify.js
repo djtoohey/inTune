@@ -6,15 +6,18 @@ const spotifyApi = require("../../config/spotifyWebApi");
 const request = require("request");
 const { json } = require("express");
 
+const cors = require("cors");
+
 const PORT = process.env.PORT || 3001;
 
 require("dotenv").config();
 
 require("../../config/passport");
 
-const SELECT_REDIRECT = "http://localhost:3000/select"
-
 module.exports = function (app) {
+
+    app.use(cors())
+
     app.get('/auth/', (req, res) => {
         res.send(`Hello world ${req.user.displayName}`)
     })
@@ -32,7 +35,7 @@ module.exports = function (app) {
     app.get('/auth/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/auth/error' }),
         function (req, res) {
             // console.log(req.user._json)
-            res.redirect(process.env.REDIRECT_SELECT);
+            res.redirect("https://djtoohey-intune.herokuapp.com/select");
         });
 
 
