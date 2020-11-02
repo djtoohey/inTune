@@ -4,6 +4,7 @@ const passport = require("passport");
 const Spotify = require("../../models/spotify");
 const spotifyApi = require("../../config/spotifyWebApi");
 const request = require("request");
+const querystring = require("querystring");
 
 const cors = require("cors");
 
@@ -15,7 +16,25 @@ require("../../config/passport");
 
 module.exports = function (app) {
 
-    app.use(cors())
+    app.use(cors());
+
+    // completely ripped from https://github.com/matiasherranz/play/blob/master/index.js 
+    app.get('/login', function (req, res) {
+
+        const state = generateRandomString(16);
+        res.cookie(stateKey, state);
+
+        // your application requests authorization
+        const scope = ["user-read-email user-read-private playlist-modify-public playlist-modify-private"];
+        res.redirect('https://accounts.spotify.com/authorize?' +
+            querystring.stringify({
+                response_type: 'code',
+                client_id: process.env.CLIENT_ID,
+                scope: scope,
+                redirect_uri: process.env.REDIRECT_URI,
+                state: process.env.SESSION_SECRET
+            }));
+    });
 
     app.get('/auth/', (req, res) => {
         res.send(`Hello world ${req.user.displayName}`)
