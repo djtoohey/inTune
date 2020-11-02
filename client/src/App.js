@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-// import {
-//     BrowserRouter as Router,
-//     Switch,
-//     Route,
-//     Link
-// } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 
 // import Main from "./pages/Test";
 // import Login from "./pages/Login";
@@ -25,43 +25,42 @@ class App extends Component {
 
     render() {
         return (
-            <Start />
-            // <Router>
-            //     <div>
-            //         <Switch>
-            //             <Route exact path={"/"}>
-            //                 <Start />
-            //             </Route>
-            //             <Route exact path={"/signup"}>
-            //                 <Signup />
-            //             </Route>
-            //             <Route exact path={"/select"}>
-            //                 <Select />
-            //             </Route>
-            //             <Route exact path={"/newset"}>
-            //                 <NewSet />
-            //             </Route>
-            //             <Route exact path={"/previous"}>
-            //                 <Previous />
-            //             </Route>
-            //             <Route path={"/playlist/"}>
-            //                 <Playlist />
-            //             </Route>
-            //             <Route exact path={"/test"}>
-            //                 <Test />
-            //             </Route>
-            //             <Route exact path={"/test2"}>
-            //                 <Test2 />
-            //             </Route>
-            //             {/* <Route exact path={"/auth/spotify/"}>
-            //                 <ren`>
-            //             </Route> */}
-            //             {/* <Route>
-            //             <NoMatch />
-            //         </Route> */}
-            //         </Switch>
-            //     </div>
-            // </Router>
+            <Router>
+                <div>
+                    <Switch>
+                        <Route exact path={"/"}>
+                            <Start />
+                        </Route>
+                        <Route exact path={"/signup"}>
+                            <Signup />
+                        </Route>
+                        <Route exact path={"/select"}>
+                            <Select />
+                        </Route>
+                        <Route exact path={"/newset"}>
+                            <NewSet />
+                        </Route>
+                        <Route exact path={"/previous"}>
+                            <Previous />
+                        </Route>
+                        <Route path={"/playlist/"}>
+                            <Playlist />
+                        </Route>
+                        <Route exact path={"/test"}>
+                            <Test />
+                        </Route>
+                        <Route exact path={"/test2"}>
+                            <Test2 />
+                        </Route>
+                        {/* <Route exact path={"/auth/spotify/"}>
+                            <ren`>
+                        </Route> */}
+                        {/* <Route>
+                        <NoMatch />
+                    </Route> */}
+                    </Switch>
+                </div>
+            </Router>
         )
     }
 

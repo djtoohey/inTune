@@ -12,20 +12,20 @@ class Start extends React.Component {
 
 
                     <a className="button is-success"
-                        // href="/login"
-                        onClick={() => (
-                            API.start()
-                                .then(res => console.log(res.data))
-                        )}
+                    // href="/login"
+                    // onClick={() => (
+                    //     API.start()
+                    //         .then(res => console.log(res.data))
+                    // )}
                     >
-                        HEROKU
+                        LOGIN
             </a>
 
-                    <a className="button is-success"
+                    {/* <a className="button is-success"
                         href="http://localhost:3001/auth/spotify/"
                     >
                         LOCAL
-            </a>
+            </a> */}
                 </div>
             </div >
         );
