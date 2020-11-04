@@ -12,7 +12,7 @@ class Start extends React.Component {
 
 
                     <a className="button is-success"
-                    // href="/login"
+                        href="http://localhost:3001/auth/spotify"
                     // onClick={() => (
                     //     API.start()
                     //         .then(res => console.log(res.data))
